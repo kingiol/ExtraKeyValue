@@ -12,5 +12,9 @@
 
 - (id)getPropertieValueForKey:(NSString *)key;
 - (void)setPropertieValue:(id)value forKey:(NSString *)key;
+- (NSDictionary *)getAllProperties;
+
+- (void)removePropertieForKey:(NSString *)key;
+- (void)removeAllProperties;
 
 @end

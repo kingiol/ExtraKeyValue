@@ -15,18 +15,14 @@ static const char *extraKeyValueKey = "extraKeyValueKey";
 @implementation NSObject (ExtraKeyValue)
 
 - (id)getPropertieValueForKey:(NSString *)key {
-    if (key == nil) {
-        return nil;
-    }
-    NSDictionary *properties = (NSDictionary *)objc_getAssociatedObject(self, extraKeyValueKey);
+    if (key == nil) return nil;
     
+    NSDictionary *properties = (NSDictionary *)objc_getAssociatedObject(self, extraKeyValueKey);
     return properties[key];
 }
 
 - (void)setPropertieValue:(id)value forKey:(NSString *)key {
-    if (key == nil || value == nil) {
-        return;
-    }
+    if (key == nil || value == nil) return;
     
     NSMutableDictionary *propertieDict = (NSMutableDictionary *)objc_getAssociatedObject(self, extraKeyValueKey);
     if (propertieDict == nil) {
@@ -40,6 +36,26 @@ static const char *extraKeyValueKey = "extraKeyValueKey";
     }
     propertieDict[key] = value;
     objc_setAssociatedObject(self, extraKeyValueKey, propertieDict, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSDictionary *)getAllProperties {
+    NSDictionary *returnDict =  (NSDictionary *)objc_getAssociatedObject(self, extraKeyValueKey);
+    return returnDict == nil ? @{} : returnDict;
+}
+
+
+- (void)removePropertieForKey:(NSString *)key {
+    if (key == nil) return;
+    
+    NSMutableDictionary *propertieDict = (NSMutableDictionary *)objc_getAssociatedObject(self, extraKeyValueKey);
+    if ([[propertieDict allKeys] containsObject:key]) {
+        [propertieDict removeObjectForKey:key];
+    }
+    objc_setAssociatedObject(self, extraKeyValueKey, propertieDict, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)removeAllProperties {
+    objc_removeAssociatedObjects(self);
 }
 
 @end
