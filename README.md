@@ -24,6 +24,8 @@ NSLog(@"student name:%@ age:%@", [student getPropertieValueForKey:@"name"], [stu
 
 ```
 
+Tips:For more useful method, please check at `NSObject+ExtraKeyValue.h`
+
 License
 =======
 The MIT License (MIT)
